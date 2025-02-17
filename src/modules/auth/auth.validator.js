@@ -13,11 +13,6 @@ export const registerValidationSchema = Joi.object({
     'string.min': `"password" should have a minimum length of {#8}`,
     'any.required': `"password" is a required field`
   }),
-  phone: Joi.string().length(11).pattern(/^[0-9]+$/).required().messages({
-    'string.length': `"phoneNumber" should have a length of {#limit}`,
-    'string.pattern.base': `"phoneNumber" should contain only digits`,
-    'any.required': `"phoneNumber" is a required field`
-  }),
 });
 
 export const loginValidationSchema = Joi.object({

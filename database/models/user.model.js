@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { removeFile } from "../../src/utils/removeFiles.js";
 
 const userSchema = mongoose.Schema(
   {
@@ -55,10 +54,6 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// userSchema.post("init", (doc) => {
-//   doc.profilePic = process.env.BASE_URL + "profilePic/" + doc.profilePic;
-// });
-
 userSchema.pre("save", function () {
   this.password = bcrypt.hashSync(this.password, Number(process.env.SALTED_VALUE));
 });
@@ -71,13 +66,4 @@ userSchema.pre("findOneAndUpdate", function () {
   }
 });
 
-userSchema.pre(/^delete/, { document: false, query: true }, async function () {
-  const doc = await this.model.findOne(this.getFilter());
-  if (doc) {
-    doc.profilePic && removeFile("profilePic", doc.profilePic);
-
-  }
-});
-// userSchema.pre(/^find/, function () {
-// });
 export const userModel = mongoose.model("user", userSchema);
